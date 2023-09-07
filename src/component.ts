@@ -1,7 +1,6 @@
 import {
   h,
   ref,
-  Ref,
   PropType,
   defineComponent,
   onMounted,
@@ -30,7 +29,7 @@ export default defineComponent({
   },
   emits,
   setup(props, { emit }) {
-    const domRef = (ref(null) as unknown) as Ref<HTMLElement>
+    const domRef = ref<HTMLElement | null>(null)
 
     const setupElement = (element: StripeElement) => {
       const [change, ...eventNames] = emits
@@ -56,13 +55,7 @@ export default defineComponent({
         props.element.mount(domRef.value)
       })
     })
-
-    return { domRef }
-
-    // -- Not supported in Vue 2 composition API => Rely on 'render' property
-    // return () => h('div', { ref: domRef })
-  },
-  render() {
-    return h('div', { ref: 'domRef' })
+    
+    return () => h('div', { ref: domRef })
   },
 })
