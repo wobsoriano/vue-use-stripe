@@ -6,7 +6,7 @@ import {
   defineComponent,
   onMounted,
   watchEffect,
-} from 'vue-demi'
+} from 'vue'
 
 import { StripeElement, StripeElementChangeEvent } from '@stripe/stripe-js'
 
@@ -39,8 +39,8 @@ export default defineComponent({
         element.on(key, () => emit(key))
       }
 
-      props.element.on(
         // @ts-ignore
+      props.element.on(
         change,
         (event: ElementChangeEvent) => emit(change, event)
       )

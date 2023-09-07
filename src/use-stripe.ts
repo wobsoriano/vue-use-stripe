@@ -1,8 +1,5 @@
-import { onMounted, Ref, ref, onBeforeUnmount } from 'vue-demi'
+import { onMounted, ref, onScopeDispose } from 'vue'
 import {
-  StripeConstructorOptions,
-  Stripe,
-  StripeElementsOptions,
   StripeElements,
   StripeCardElementOptions,
   StripeCardCvcElementOptions,
@@ -17,7 +14,9 @@ import {
   StripeP24BankElementOptions,
   StripeElementType,
   StripeElement,
+  StripeElementsOptionsClientSecret,
 } from '@stripe/stripe-js'
+import { useStripeInstance } from './plugin'
 
 export type ElementType = {
   type: StripeElementType
@@ -36,10 +35,8 @@ export type ElementType = {
 }
 
 export type StripeOptions = {
-  key: string
   elements?: ElementType[]
-  constructorOptions?: StripeConstructorOptions
-  elementsOptions?: StripeElementsOptions
+  elementsOptions?: StripeElementsOptionsClientSecret
 }
 
 export const baseStyle = {
@@ -59,22 +56,14 @@ export const baseStyle = {
 }
 
 export function useStripe({
-  key,
   elements: types = [],
-  constructorOptions,
   elementsOptions,
 }: StripeOptions) {
-  const stripe = ref(null) as Ref<Stripe | null>
-  const stripeElements = ref(null) as Ref<StripeElements | null>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const elements = types.map(() => ref(null)) as Ref<any>[]
+  const stripe = useStripeInstance()
+  const stripeElements = ref<StripeElements | null>(null)
+  const elements = types.map(() => ref<StripeElement[]>([]))
 
   const setupStripe = () => {
-    if (typeof window === 'undefined' || !window.Stripe) {
-      return false
-    }
-
-    stripe.value = window.Stripe(key, constructorOptions)
     stripeElements.value = stripe.value.elements(elementsOptions)
 
     types.forEach(({ type, options }, index) => {
@@ -115,8 +104,8 @@ export function useStripe({
     }
   })
 
-  onBeforeUnmount(() => {
-    elements.forEach((element) => destroyElement(element.value))
+  onScopeDispose(() => {
+    elements.forEach((element) => destroyElement(element.value as any))
   })
 
   return {
