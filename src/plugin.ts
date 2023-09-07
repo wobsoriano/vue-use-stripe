@@ -1,13 +1,22 @@
-import { Stripe } from "@stripe/stripe-js";
-import { Plugin, ShallowRef, inject, shallowRef } from "vue";
+import { Stripe } from '@stripe/stripe-js'
+import { Plugin, ShallowRef, inject, shallowRef } from 'vue'
 
-export function StripePlugin(stripePromise: Promise<Stripe | null>): Plugin {
+function isPromise(x: unknown): x is Promise<unknown> {
+  return x instanceof Promise
+}
+
+export function StripePlugin(stripePromise: Stripe | Promise<Stripe | null>): Plugin {
   return {
     install: (app) => {
       const stripe = shallowRef<Stripe | null>(null)
-      stripePromise.then((result) => {
-        stripe.value = result
-      })
+
+      if (isPromise(stripePromise)) {
+        stripePromise.then((result) => {
+          stripe.value = result
+        })
+      } else {
+        stripe.value = stripePromise
+      }
 
       app.provide('stripe', stripe)
     }
