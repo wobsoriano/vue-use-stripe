@@ -1,5 +1,6 @@
-import { Stripe } from '@stripe/stripe-js'
-import { Plugin, ShallowRef, inject, shallowRef } from 'vue'
+import type { Stripe } from '@stripe/stripe-js'
+import type { Plugin, ShallowRef } from 'vue'
+import { inject, shallowRef } from 'vue'
 
 function isPromise(x: unknown): x is Promise<unknown> {
   return x instanceof Promise
@@ -14,19 +15,20 @@ export function StripePlugin(stripePromise: Stripe | Promise<Stripe | null>): Pl
         stripePromise.then((result) => {
           stripe.value = result
         })
-      } else {
+      }
+      else {
         stripe.value = stripePromise
       }
 
       app.provide('stripe', stripe)
-    }
+    },
   }
 }
 
 export function useStripeInstance() {
   const stripe = inject('stripe')
-  if (!stripe) {
+  if (!stripe)
     throw new Error('You must call `useStripe()` inside the `setup()` function.')
-  }
+
   return stripe as ShallowRef<Stripe | null>
 }

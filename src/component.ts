@@ -1,6 +1,7 @@
-import { h, ref, PropType, defineComponent, onMounted, watchEffect, toRaw } from 'vue'
+import type { PropType } from 'vue'
+import { defineComponent, h, onMounted, ref, watchEffect } from 'vue'
 
-import { StripeElement, StripeElementChangeEvent } from '@stripe/stripe-js'
+import type { StripeElement, StripeElementChangeEvent } from '@stripe/stripe-js'
 
 const emits = ['change', 'focus', 'blur', 'click', 'ready']
 
@@ -17,8 +18,8 @@ export default defineComponent({
   props: {
     element: {
       type: Object as PropType<StripeElement>,
-      default: null
-    }
+      default: null,
+    },
   },
   emits,
   setup(props, { emit }) {
@@ -27,19 +28,18 @@ export default defineComponent({
     const setupElement = (element: StripeElement) => {
       const [change, ...eventNames] = emits
       for (const key of eventNames) {
-        // @ts-ignore
+        // @ts-expect-error: Some elements doesn't have this method
         element.on(key, () => emit(key))
       }
 
-      // @ts-ignore
+      // @ts-expect-error: Some elements doesn't have this method
       props.element.on(change, (event: ElementChangeEvent) => emit(change, event))
     }
 
     onMounted(() => {
       watchEffect((onInvalidate) => {
-        if (!props.element || Array.isArray(props.element) || !domRef.value) {
+        if (!props.element || Array.isArray(props.element) || !domRef.value)
           return
-        }
 
         setupElement(props.element)
         props.element.mount(domRef.value)
@@ -51,5 +51,5 @@ export default defineComponent({
     })
 
     return () => h('div', { ref: domRef })
-  }
+  },
 })

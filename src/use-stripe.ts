@@ -1,58 +1,59 @@
-import { ref, watchEffect, Ref, onUnmounted } from 'vue'
-import {
-  StripeElements,
-  StripeCardElementOptions,
-  StripeCardCvcElementOptions,
-  StripeCardNumberElementOptions,
-  StripeCardExpiryElementOptions,
+import type { Ref } from 'vue'
+import { onUnmounted, ref, watchEffect } from 'vue'
+import type {
   StripeAuBankAccountElementOptions,
+  StripeCardCvcElementOptions,
+  StripeCardElementOptions,
+  StripeCardExpiryElementOptions,
+  StripeCardNumberElementOptions,
+  StripeElement,
+  StripeElementType,
+  StripeElements,
+  StripeElementsOptionsClientSecret,
+  StripeEpsBankElementOptions,
   StripeFpxBankElementOptions,
   StripeIbanElementOptions,
   StripeIdealBankElementOptions,
-  StripePaymentRequestButtonElementOptions,
-  StripeEpsBankElementOptions,
   StripeP24BankElementOptions,
-  StripeElementType,
-  StripeElement,
-  StripeElementsOptionsClientSecret
+  StripePaymentRequestButtonElementOptions,
 } from '@stripe/stripe-js'
 import { useStripeInstance } from './plugin'
 
-export type ElementType = {
+export interface ElementType {
   type: StripeElementType
   options?:
-    | StripeCardElementOptions
-    | StripeCardCvcElementOptions
-    | StripeCardExpiryElementOptions
-    | StripeCardNumberElementOptions
-    | StripeAuBankAccountElementOptions
-    | StripeFpxBankElementOptions
-    | StripeIbanElementOptions
-    | StripeIdealBankElementOptions
-    | StripePaymentRequestButtonElementOptions
-    | StripeEpsBankElementOptions
-    | StripeP24BankElementOptions
+  | StripeCardElementOptions
+  | StripeCardCvcElementOptions
+  | StripeCardExpiryElementOptions
+  | StripeCardNumberElementOptions
+  | StripeAuBankAccountElementOptions
+  | StripeFpxBankElementOptions
+  | StripeIbanElementOptions
+  | StripeIdealBankElementOptions
+  | StripePaymentRequestButtonElementOptions
+  | StripeEpsBankElementOptions
+  | StripeP24BankElementOptions
 }
 
-export type StripeOptions = {
+export interface StripeOptions {
   elements?: ElementType[]
   elementsOptions?: StripeElementsOptionsClientSecret
 }
 
 export const baseStyle = {
   base: {
-    color: '#32325d',
-    fontFamily: 'Helvetica Neue, Roboto',
-    fontSmoothing: 'antialiased',
-    fontSize: '16px',
+    'color': '#32325d',
+    'fontFamily': 'Helvetica Neue, Roboto',
+    'fontSmoothing': 'antialiased',
+    'fontSize': '16px',
     '::placeholder': {
-      color: '#aab7c4'
-    }
+      color: '#aab7c4',
+    },
   },
   invalid: {
     color: '#fa755a',
-    iconColor: '#fa755a'
-  }
+    iconColor: '#fa755a',
+  },
 }
 
 export function useStripe({ elements: types = [], elementsOptions }: StripeOptions) {
@@ -61,16 +62,16 @@ export function useStripe({ elements: types = [], elementsOptions }: StripeOptio
   const elements = types.map(() => ref([])) as unknown as Ref<StripeElement>[]
 
   const setupStripe = () => {
-    if (!stripe.value) {
+    if (!stripe.value)
       return false
-    }
+
     stripeElements.value = stripe.value.elements(elementsOptions)
 
     types.forEach(({ type, options }, index) => {
-      // @ts-ignore
+      // @ts-expect-error: TODO
       elements[index].value = stripeElements.value.create(type, {
         style: baseStyle,
-        ...options
+        ...options,
       })
     })
 
@@ -82,7 +83,8 @@ export function useStripe({ elements: types = [], elementsOptions }: StripeOptio
       try {
         element.unmount()
         element.destroy()
-      } catch {
+      }
+      catch {
         // Do nothing
       }
     }
@@ -93,12 +95,12 @@ export function useStripe({ elements: types = [], elementsOptions }: StripeOptio
   })
 
   onUnmounted(() => {
-    elements.forEach((element) => destroyElement(element.value as any))
+    elements.forEach(element => destroyElement(element.value as any))
   })
 
   return {
     stripe,
     stripeElements,
-    elements
+    elements,
   }
 }

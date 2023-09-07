@@ -33,7 +33,7 @@ If you are using TypeScript, make sure you also install the mentioned `@stripe/s
 
 ```ts
 import { defineComponent, ref } from 'vue'
-import { useStripe, StripeElement } from 'vue-use-stripe'
+import { StripeElement, useStripe } from 'vue-use-stripe'
 
 export default defineComponent({
   components: { StripeElement },

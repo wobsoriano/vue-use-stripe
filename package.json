@@ -2,29 +2,15 @@
   "name": "vue-use-stripe",
   "version": "0.1.1",
   "description": "Thin Vue 3 wrapper for Stripe.js",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
-    }
-  },
-  "scripts": {
-    "build-fast": "tsup src/index.ts --format cjs,esm",
-    "build": "pnpm build-fast --dts-resolve",
-    "dev": "vite serve dev",
-    "dev:build": "vite build dev",
-    "dev:preview": "vite preview dev",
-    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/",
-    "prepublishOnly": "yarn lint && yarn build"
-  },
+  "author": "Fran Dios <me@frandiox.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/frandiox/vue-use-stripe#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/frandiox/vue-use-stripe.git"
+  },
+  "bugs": {
+    "url": "https://github.com/frandiox/vue-use-stripe/issues"
   },
   "keywords": [
     "stripe",
@@ -33,36 +19,43 @@
     "vue3",
     "typescript"
   ],
-  "author": "Fran Dios <me@frandiox.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/frandiox/vue-use-stripe/issues"
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
   },
-  "homepage": "https://github.com/frandiox/vue-use-stripe#readme",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist/*",
     "src/*"
   ],
+  "scripts": {
+    "build-fast": "tsup src/index.ts --format cjs,esm",
+    "build": "pnpm build-fast --dts-resolve",
+    "dev": "vite serve dev",
+    "dev:build": "vite build dev",
+    "dev:preview": "vite preview dev",
+    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
+    "lint": "eslint . ",
+    "prepublishOnly": "yarn lint && yarn build"
+  },
   "peerDependencies": {
     "vue": "^3.2.0"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.3.2",
-    "@tsconfig/node18": "^18.2.0",
-    "@vue/eslint-config-prettier": "^8.0.0",
-    "@vue/eslint-config-typescript": "^11.0.3",
-    "eslint": "^8.46.0",
-    "@vue/tsconfig": "^0.4.0",
-    "eslint-plugin-vue": "^9.16.1",
+    "@antfu/eslint-config": "^0.41.0",
     "@stripe/stripe-js": "^2.1.2",
     "@types/jest": "^26.0.10",
-    "@vue/composition-api": "^1.0.0-rc.1",
-    "prettier": "^3.0.0",
     "@vitejs/plugin-vue": "^4.2.3",
+    "@vue/composition-api": "^1.0.0-rc.1",
+    "eslint": "^8.48.0",
     "tsup": "^7.2.0",
     "typescript": "~5.1.6",
     "vite": "^4.4.9",
-    "vue-tsc": "^1.8.8",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue-tsc": "^1.8.8"
   }
 }
