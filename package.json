@@ -1,16 +1,16 @@
 {
-  "name": "vue-use-stripe",
-  "version": "0.1.1",
+  "name": "vue3-use-stripe",
+  "version": "0.0.0",
   "description": "Thin Vue 3 wrapper for Stripe.js",
-  "author": "Fran Dios <me@frandiox.com>",
+  "author": "Robert Soriano <sorianorobertc@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/frandiox/vue-use-stripe#readme",
+  "homepage": "https://github.com/wobsoriano/vue-use-stripe#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/frandiox/vue-use-stripe.git"
+    "url": "git+https://github.com/wobsoriano/vue-use-stripe.git"
   },
   "bugs": {
-    "url": "https://github.com/frandiox/vue-use-stripe/issues"
+    "url": "https://github.com/wobsoriano/vue-use-stripe/issues"
   },
   "keywords": [
     "stripe",
@@ -38,7 +38,7 @@
     "dev": "vite serve dev",
     "dev:build": "vite build dev",
     "dev:preview": "vite preview dev",
-    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
+    "type-check": "vue-tsc --noEmit -p tsconfig.json --composite false",
     "lint": "eslint . ",
     "prepublishOnly": "yarn lint && yarn build"
   },
