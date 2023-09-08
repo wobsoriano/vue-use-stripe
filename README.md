@@ -73,7 +73,7 @@ useStripe(options: StripeOptions): {
   stripeElements: ShallowRef<StripeElements | null>;
 
   // Array of elements created out of `StripeOptions.elements` array
-  elements: Ref<StripeElement | undefined>[];
+  elements: ShallowRef<StripeElement | undefined>[];
 }
 
 type StripeOptions = {

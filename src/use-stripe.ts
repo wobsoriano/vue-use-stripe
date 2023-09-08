@@ -1,5 +1,5 @@
 import type { MaybeRef } from 'vue'
-import { ref, shallowRef, unref, watchEffect } from 'vue'
+import { shallowRef, unref, watchEffect } from 'vue'
 
 import type {
   StripeAuBankAccountElementOptions,
@@ -59,7 +59,7 @@ export function useStripe({ elements: types = [], elementsOptions }: {
 }) {
   const stripe = useStripeInstance()
   const stripeElements = shallowRef<StripeElements | null>(null)
-  const elements = types.map(() => ref<StripeElement>())
+  const elements = types.map(() => shallowRef<StripeElement>())
 
   const setupStripe = () => {
     if (!stripe.value)
