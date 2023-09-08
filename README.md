@@ -18,7 +18,7 @@ import { StripePlugin } from 'vue3-use-stripe'
 
 const app = createApp(App)
 
-const stripePromise = loadStripe('{{STRIPE_PUBLIC_KEY}}')
+const stripePromise = loadStripe('{{STRIPE_PUBLISHABLE_KEY}}')
 
 app.use(StripePlugin(stripePromise))
 ```
