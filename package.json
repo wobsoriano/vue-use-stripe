@@ -38,6 +38,7 @@
     "dev": "vite serve dev",
     "dev:build": "vite build dev",
     "dev:preview": "vite preview dev",
+    "release": "bumpp && npm publish",
     "type-check": "vue-tsc --noEmit -p tsconfig.json --composite false",
     "lint": "eslint . ",
     "prepublishOnly": "yarn lint && yarn build"
@@ -52,6 +53,7 @@
     "@antfu/eslint-config": "^0.41.0",
     "@types/jest": "^26.0.10",
     "@vitejs/plugin-vue": "^4.2.3",
+    "bumpp": "^9.2.0",
     "eslint": "^8.48.0",
     "tsup": "^7.2.0",
     "typescript": "~5.1.6",
