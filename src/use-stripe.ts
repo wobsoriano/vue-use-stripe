@@ -1,5 +1,5 @@
 import type { MaybeRef } from 'vue'
-import { shallowRef, unref, watchEffect } from 'vue'
+import { readonly, shallowRef, unref, watchEffect } from 'vue'
 
 import type {
   StripeAuBankAccountElementOptions,
@@ -100,7 +100,7 @@ export function useStripe({ elements: types = [], elementsOptions }: {
 
   return {
     stripe,
-    stripeElements,
+    stripeElements: readonly(stripeElements),
     elements,
   }
 }
