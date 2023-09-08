@@ -45,12 +45,13 @@
   "peerDependencies": {
     "vue": "^3.2.0"
   },
+  "dependencies": {
+    "@stripe/stripe-js": "^2.1.2"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^0.41.0",
-    "@stripe/stripe-js": "^2.1.2",
     "@types/jest": "^26.0.10",
     "@vitejs/plugin-vue": "^4.2.3",
-    "@vue/composition-api": "^1.0.0-rc.1",
     "eslint": "^8.48.0",
     "tsup": "^7.2.0",
     "typescript": "~5.1.6",

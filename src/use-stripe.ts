@@ -1,5 +1,6 @@
 import type { Ref } from 'vue'
 import { onUnmounted, ref, watchEffect } from 'vue'
+
 import type {
   StripeAuBankAccountElementOptions,
   StripeCardCvcElementOptions,
@@ -9,7 +10,7 @@ import type {
   StripeElement,
   StripeElementType,
   StripeElements,
-  StripeElementsOptionsClientSecret,
+  StripeElementsOptions,
   StripeEpsBankElementOptions,
   StripeFpxBankElementOptions,
   StripeIbanElementOptions,
@@ -17,28 +18,8 @@ import type {
   StripeP24BankElementOptions,
   StripePaymentRequestButtonElementOptions,
 } from '@stripe/stripe-js'
+
 import { useStripeInstance } from './plugin'
-
-export interface ElementType {
-  type: StripeElementType
-  options?:
-  | StripeCardElementOptions
-  | StripeCardCvcElementOptions
-  | StripeCardExpiryElementOptions
-  | StripeCardNumberElementOptions
-  | StripeAuBankAccountElementOptions
-  | StripeFpxBankElementOptions
-  | StripeIbanElementOptions
-  | StripeIdealBankElementOptions
-  | StripePaymentRequestButtonElementOptions
-  | StripeEpsBankElementOptions
-  | StripeP24BankElementOptions
-}
-
-export interface StripeOptions {
-  elements?: ElementType[]
-  elementsOptions?: StripeElementsOptionsClientSecret
-}
 
 export const baseStyle = {
   base: {
@@ -56,7 +37,26 @@ export const baseStyle = {
   },
 }
 
-export function useStripe({ elements: types = [], elementsOptions }: StripeOptions) {
+interface ElementType {
+  type: StripeElementType
+  options?:
+  | StripeCardElementOptions
+  | StripeCardCvcElementOptions
+  | StripeCardExpiryElementOptions
+  | StripeCardNumberElementOptions
+  | StripeAuBankAccountElementOptions
+  | StripeFpxBankElementOptions
+  | StripeIbanElementOptions
+  | StripeIdealBankElementOptions
+  | StripePaymentRequestButtonElementOptions
+  | StripeEpsBankElementOptions
+  | StripeP24BankElementOptions
+}
+
+export function useStripe({ elements: types = [], elementsOptions }: {
+  elements?: ElementType[]
+  elementsOptions?: StripeElementsOptions
+}) {
   const stripe = useStripeInstance()
   const stripeElements = ref<StripeElements | null>(null)
   const elements = types.map(() => ref([])) as unknown as Ref<StripeElement>[]
@@ -65,10 +65,10 @@ export function useStripe({ elements: types = [], elementsOptions }: StripeOptio
     if (!stripe.value)
       return false
 
-    stripeElements.value = stripe.value.elements(elementsOptions)
+    stripeElements.value = stripe.value.elements(elementsOptions as any)
 
     types.forEach(({ type, options }, index) => {
-      // @ts-expect-error: TODO
+      // @ts-expect-error: Internal Stripe typings are not compatible
       elements[index].value = stripeElements.value.create(type, {
         style: baseStyle,
         ...options,
