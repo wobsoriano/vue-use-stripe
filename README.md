@@ -23,6 +23,8 @@ const stripePromise = loadStripe('{{STRIPE_PUBLISHABLE_KEY}}')
 app.use(StripePlugin(stripePromise))
 ```
 
+Use it like so
+
 ```vue
 <script setup lang="ts">
 import { StripeElement, useStripe } from 'vue3-use-stripe'
