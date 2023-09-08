@@ -62,7 +62,7 @@ async function submit() {
 </template>
 ```
 
-### API
+## API
 
 ```ts
 useStripe(options: StripeOptions): {
@@ -94,7 +94,7 @@ Note: `StripeOptions.elements` array is optional. Alternatively, create elements
 
 The `<StripeElement />` component will emit any event created by the internal element: `change`, `ready`, `click`, `focus`, `blur`.
 
-## Nuxt
+### Nuxt
 
 Create a client plugin to load Stripe and install the Vue plugin
 
