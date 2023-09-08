@@ -8,18 +8,18 @@ function isPromise(x: unknown): x is Promise<unknown> {
 
 const StripeKey: InjectionKey<ShallowRef<Stripe | null>> = Symbol('stripe')
 
-export function StripePlugin(stripePromise: Stripe | Promise<Stripe | null>): Plugin {
+export function StripePlugin(stripeInstanceOrPromise: Stripe | Promise<Stripe | null>): Plugin {
   return {
     install: (app) => {
       const stripe = shallowRef<Stripe | null>(null)
 
-      if (isPromise(stripePromise)) {
-        stripePromise.then((result) => {
+      if (isPromise(stripeInstanceOrPromise)) {
+        stripeInstanceOrPromise.then((result) => {
           stripe.value = result
         })
       }
       else {
-        stripe.value = stripePromise
+        stripe.value = stripeInstanceOrPromise
       }
 
       app.provide(StripeKey, stripe)
