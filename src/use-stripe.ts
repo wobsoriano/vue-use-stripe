@@ -1,5 +1,5 @@
-import type { Ref } from 'vue'
-import { onUnmounted, ref, watchEffect } from 'vue'
+import type { MaybeRef } from 'vue'
+import { ref, shallowRef, unref, watchEffect } from 'vue'
 
 import type {
   StripeAuBankAccountElementOptions,
@@ -55,17 +55,17 @@ interface ElementType {
 
 export function useStripe({ elements: types = [], elementsOptions }: {
   elements?: ElementType[]
-  elementsOptions?: StripeElementsOptions
+  elementsOptions?: MaybeRef<StripeElementsOptions>
 }) {
   const stripe = useStripeInstance()
-  const stripeElements = ref<StripeElements | null>(null)
-  const elements = types.map(() => ref([])) as unknown as Ref<StripeElement>[]
+  const stripeElements = shallowRef<StripeElements | null>(null)
+  const elements = types.map(() => ref<StripeElement>())
 
   const setupStripe = () => {
     if (!stripe.value)
       return false
 
-    stripeElements.value = stripe.value.elements(elementsOptions as any)
+    stripeElements.value = stripe.value.elements(unref(elementsOptions) as any)
 
     types.forEach(({ type, options }, index) => {
       // @ts-expect-error: Internal Stripe typings are not compatible
@@ -90,12 +90,12 @@ export function useStripe({ elements: types = [], elementsOptions }: {
     }
   }
 
-  watchEffect(() => {
+  watchEffect((onInvalidate) => {
     setupStripe()
-  })
 
-  onUnmounted(() => {
-    elements.forEach(element => destroyElement(element.value as any))
+    onInvalidate(() => {
+      elements.forEach(element => destroyElement(element.value as any))
+    })
   })
 
   return {

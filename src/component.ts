@@ -38,7 +38,7 @@ export default defineComponent({
 
     onMounted(() => {
       watchEffect((onInvalidate) => {
-        if (!props.element || Array.isArray(props.element) || !domRef.value)
+        if (!props.element || !domRef.value)
           return
 
         setupElement(props.element)

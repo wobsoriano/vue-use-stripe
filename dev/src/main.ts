@@ -7,7 +7,7 @@ import App from './App.vue'
 
 const app = createApp(App)
 
-const stripePromise = loadStripe('pk_test_5NTx3icIuJNpqxmUgRQNS3oQ')
+const stripePromise = loadStripe('')
 
 app.use(StripePlugin(stripePromise))
 

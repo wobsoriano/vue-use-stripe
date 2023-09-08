@@ -1,21 +1,14 @@
 <script setup lang="ts">
 import { StripeElement, useStripe } from '../../src'
 
-const { elements: [cardElement] } = useStripe({
-  elements: [
-    {
-      type: 'card',
-      options: {
-        iconStyle: 'default',
-      },
-    },
-  ],
+const { elements: [paymentElement] } = useStripe({
+  elements: [{ type: 'payment' }],
+  elementsOptions: {
+    clientSecret: '{}',
+  },
 })
-
-// eslint-disable-next-line no-console
-console.log('cardElement', cardElement)
 </script>
 
 <template>
-  <StripeElement :element="cardElement" />
+  <StripeElement :element="paymentElement" />
 </template>
