@@ -5,7 +5,7 @@ This is a Vue 3 wrapper for Stripe.js written in TypeScript. It simply provides 
 ## Installation
 
 ```bash
-pnpm add @stripe/stripe-js vue3-use-stripe
+npm install @stripe/stripe-js vue3-use-stripe
 ```
 
 ## Usage
