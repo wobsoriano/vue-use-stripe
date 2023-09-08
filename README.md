@@ -93,3 +93,19 @@ type StripeOptions = {
 Note: `StripeOptions.elements` array is optional. Alternatively, create elements manually using the returned `stripeElements`.
 
 The `<StripeElement />` component will emit any event created by the internal element: `change`, `ready`, `click`, `focus`, `blur`.
+
+## Nuxt
+
+Create a client plugin to load Stripe and install the Vue plugin
+
+```ts
+// file: plugins/stripe.client.ts
+import { loadStripe } from '@stripe/stripe-js'
+import { StripePlugin } from 'vue3-use-stripe'
+
+export default defineNuxtPlugin(async (nuxtApp) => {
+  const stripe = await loadStripe('{{STRIPE_PUBLISHABLE_KEY}}')
+
+  nuxtApp.vueApp.use(StripePlugin(stripe))
+})
+```
