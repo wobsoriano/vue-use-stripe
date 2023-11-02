@@ -48,7 +48,7 @@
     "vue": "^3.3.0"
   },
   "dependencies": {
-    "@stripe/stripe-js": "^2.1.2"
+    "@stripe/stripe-js": "^2.1.11"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.41.0",
