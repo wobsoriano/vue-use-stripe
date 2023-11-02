@@ -42,7 +42,7 @@
     "release": "bumpp && npm publish",
     "type-check": "vue-tsc --noEmit -p tsconfig.json --composite false",
     "lint": "eslint . ",
-    "prepublishOnly": "yarn lint && yarn build"
+    "prepublishOnly": "pnpm lint && pnpm build"
   },
   "peerDependencies": {
     "vue": "^3.3.0"
