@@ -45,12 +45,11 @@
     "prepublishOnly": "pnpm lint && pnpm build"
   },
   "peerDependencies": {
-    "vue": "^3.3.0"
-  },
-  "dependencies": {
-    "@stripe/stripe-js": "^2.1.11"
+    "vue": "^3.3.0",
+    "@stripe/stripe-js": "^3.0.0"
   },
   "devDependencies": {
+    "@stripe/stripe-js": "^3.5.0",
     "@antfu/eslint-config": "^2.21.1",
     "@vitejs/plugin-vue": "^5.0.5",
     "bumpp": "^9.4.1",
