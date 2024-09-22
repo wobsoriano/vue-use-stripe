@@ -42,22 +42,23 @@
     "release": "bumpp && npm publish",
     "type-check": "vue-tsc --noEmit -p tsconfig.json --composite false",
     "lint": "eslint . ",
+    "lint:fix": "eslint . --fix",
     "prepublishOnly": "pnpm lint && pnpm build"
   },
   "peerDependencies": {
-    "vue": "^3.3.0",
-    "@stripe/stripe-js": "^3.0.0"
+    "@stripe/stripe-js": "^1.44.1 || ^2.0.0 || ^3.0.0 || ^4.0.0",
+    "vue": "^3.3.0"
   },
   "devDependencies": {
-    "@stripe/stripe-js": "^3.5.0",
-    "@antfu/eslint-config": "^2.21.1",
-    "@vitejs/plugin-vue": "^5.0.5",
-    "bumpp": "^9.4.1",
-    "eslint": "^9.4.0",
-    "tsup": "^8.1.0",
-    "typescript": "~5.4.5",
-    "vite": "^5.3.1",
-    "vue": "^3.4.28",
-    "vue-tsc": "^2.0.21"
+    "@antfu/eslint-config": "^3.7.1",
+    "@stripe/stripe-js": "^4.5.0",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "bumpp": "^9.5.2",
+    "eslint": "^9.11.0",
+    "tsup": "^8.3.0",
+    "typescript": "~5.6.2",
+    "vite": "^5.4.7",
+    "vue": "^3.5.8",
+    "vue-tsc": "^2.1.6"
   }
 }

@@ -1,61 +1,13 @@
-import type { MaybeRef } from 'vue'
-import { readonly, shallowRef, unref, watchEffect } from 'vue'
-
-import type {
-  StripeAuBankAccountElementOptions,
-  StripeCardCvcElementOptions,
-  StripeCardElementOptions,
-  StripeCardExpiryElementOptions,
-  StripeCardNumberElementOptions,
-  StripeElement,
-  StripeElementType,
-  StripeElements,
-  StripeElementsOptions,
-  StripeEpsBankElementOptions,
-  StripeFpxBankElementOptions,
-  StripeIbanElementOptions,
-  StripeIdealBankElementOptions,
-  StripeP24BankElementOptions,
-  StripePaymentRequestButtonElementOptions,
-} from '@stripe/stripe-js'
-
+import type { StripeElement, StripeElements, StripeElementsOptions } from '@stripe/stripe-js'
+import type { ElementTypeAndOptions, ElementTypeMap } from './types'
+import { readonly, shallowRef, type ShallowRef, watchEffect } from 'vue'
 import { useStripeInstance } from './plugin'
 
-export const baseStyle = {
-  base: {
-    'color': '#32325d',
-    'fontFamily': 'Helvetica Neue, Roboto',
-    'fontSmoothing': 'antialiased',
-    'fontSize': '16px',
-    '::placeholder': {
-      color: '#aab7c4',
-    },
-  },
-  invalid: {
-    color: '#fa755a',
-    iconColor: '#fa755a',
-  },
-}
+interface UnknownOptions { [k: string]: unknown }
 
-interface ElementType {
-  type: StripeElementType
-  options?:
-  | StripeCardElementOptions
-  | StripeCardCvcElementOptions
-  | StripeCardExpiryElementOptions
-  | StripeCardNumberElementOptions
-  | StripeAuBankAccountElementOptions
-  | StripeFpxBankElementOptions
-  | StripeIbanElementOptions
-  | StripeIdealBankElementOptions
-  | StripePaymentRequestButtonElementOptions
-  | StripeEpsBankElementOptions
-  | StripeP24BankElementOptions
-}
-
-export function useStripe({ elements: types = [], elementsOptions }: {
-  elements?: ElementType[]
-  elementsOptions?: MaybeRef<StripeElementsOptions>
+export function useStripe<T extends (keyof ElementTypeMap)[]>({ elements: types = [], elementsOptions }: {
+  elements?: { [K in keyof T]: ElementTypeAndOptions<T[K]> }
+  elementsOptions?: StripeElementsOptions
 }) {
   const stripe = useStripeInstance()
   const stripeElements = shallowRef<StripeElements | null>(null)
@@ -65,14 +17,10 @@ export function useStripe({ elements: types = [], elementsOptions }: {
     if (!stripe.value)
       return false
 
-    stripeElements.value = stripe.value.elements(unref(elementsOptions) as any)
+    stripeElements.value = stripe.value.elements(elementsOptions as UnknownOptions)
 
     types.forEach(({ type, options }, index) => {
-      // @ts-expect-error: Internal Stripe typings are not compatible
-      elements[index].value = stripeElements.value.create(type, {
-        style: baseStyle,
-        ...options,
-      })
+      elements[index].value = stripeElements.value!.create(type as any, options as UnknownOptions)
     })
 
     return true
@@ -94,13 +42,13 @@ export function useStripe({ elements: types = [], elementsOptions }: {
     setupStripe()
 
     onInvalidate(() => {
-      elements.forEach(element => destroyElement(element.value as any))
+      elements.forEach(element => destroyElement(element.value!))
     })
   })
 
   return {
     stripe,
     stripeElements: readonly(stripeElements),
-    elements,
+    elements: elements as { [K in keyof T]: ShallowRef<ElementTypeMap[T[K]]> },
   }
 }

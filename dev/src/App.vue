@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { StripeCardElement } from '@stripe/stripe-js'
 import { StripeElement, useStripe } from '../../src'
 
 const {
@@ -12,7 +11,7 @@ const {
 async function submit() {
   const result = await stripe.value?.confirmCardPayment('{{CLIENT_SECRET}}', {
     payment_method: {
-      card: cardNumber.value as StripeCardElement,
+      card: cardNumber.value,
     },
   })
 

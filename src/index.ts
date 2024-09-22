@@ -1,6 +1,6 @@
-export { useStripe, baseStyle } from './use-stripe'
 export { default as StripeElement } from './component'
-
 export type { ElementChangeEvent } from './component'
 
-export { useStripeInstance, StripePlugin } from './plugin'
+export { StripePlugin, useStripeInstance } from './plugin'
+
+export { baseStyle, useStripe } from './use-stripe'

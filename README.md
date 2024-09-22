@@ -34,7 +34,7 @@ const {
   stripeElements,
   elements: [paymentElement],
 } = useStripe({
-  elements: [{ type: 'payment'}],
+  elements: [{ type: 'payment' }],
   elementsOptions: {
     clientSecret: '{{CLIENT_SECRET}}',
   },
@@ -48,7 +48,8 @@ async function submit() {
 
   if (result.error) {
     // Handle error
-  } else {
+  }
+  else {
     // Handle success
   }
 }
