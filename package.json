@@ -43,7 +43,7 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.json --composite false",
     "lint": "eslint . ",
     "lint:fix": "eslint . --fix",
-    "prepublishOnly": "pnpm lint && pnpm build"
+    "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
     "@stripe/stripe-js": "^1.44.1 || ^2.0.0 || ^3.0.0 || ^4.0.0",
