@@ -5,7 +5,7 @@ import { useStripeInstance } from './plugin'
 
 interface UnknownOptions { [k: string]: unknown }
 
-export function useStripe<T extends (keyof ElementTypeMap)[]>({ elements: types = [], elementsOptions }: {
+export function useStripe<T extends (keyof ElementTypeMap)[]>({ elements: types = [] as unknown as { [K in keyof T]: ElementTypeAndOptions<T[K]> }, elementsOptions }: {
   elements?: { [K in keyof T]: ElementTypeAndOptions<T[K]> }
   elementsOptions?: StripeElementsOptions
 }) {
